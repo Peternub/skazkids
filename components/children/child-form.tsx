@@ -86,7 +86,7 @@ export function ChildForm({
 
       <label className="block">
         <span className="mb-2 block text-sm font-medium text-[var(--text-main)]">
-          Друзья, близкие и важные персонажи
+          Друзья, близкие и важные персонажи, которые будут участвовать в сериалах
         </span>
         <textarea
           name="additionalContext"
