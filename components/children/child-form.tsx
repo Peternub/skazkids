@@ -58,8 +58,8 @@ export function ChildForm({
             name="age"
             type="number"
             autoComplete="off"
-            min={3}
-            max={7}
+            min={1}
+            max={99}
             required
             defaultValue={child?.age ?? ""}
             className={fieldClassName}
