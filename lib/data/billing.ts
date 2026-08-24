@@ -63,6 +63,28 @@ export async function getBillingOverview(userId: string) {
   return { subscription, storiesUsed };
 }
 
+export async function hasActiveSubscription(userId: string) {
+  const result = await queryDatabase<{ has_access: boolean }>(
+    `
+      select exists (
+        select 1
+        from public.subscriptions subscription
+        join public.subscription_plans plan on plan.id = subscription.plan_id
+        where subscription.user_id = $1
+          and subscription.status = 'active'
+          and plan.is_active = true
+          and (
+            subscription.current_period_end is null
+            or subscription.current_period_end > now()
+          )
+      ) as has_access
+    `,
+    [userId]
+  );
+
+  return result.rows[0]?.has_access ?? false;
+}
+
 export async function getStarterOfferRecord(userId: string) {
   const result = await queryDatabase<{ status: string; series_id: string | null }>(
     `

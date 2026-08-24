@@ -1,19 +1,27 @@
 import Link from "next/link";
 import { randomUUID } from "node:crypto";
+import { redirect } from "next/navigation";
 import { createSeries } from "@/app/actions/series";
 import { StarterOfferButton } from "@/components/billing/starter-offer-button";
 import { SeriesForm } from "@/components/stories/series-form";
 import { STARTER_OFFER } from "@/lib/config/starter-offer";
+import { SERIES_CREATION_REDIRECT } from "@/lib/billing/series-access";
 import { listChildrenForSelection } from "@/lib/data/children";
-import { getStarterOfferStatus } from "@/lib/payments/starter-offer";
+import { getSeriesCreationAccess } from "@/lib/payments/series-access";
 import { requireUser } from "@/lib/auth/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function NewSeriesPage() {
   const user = await requireUser();
+  const access = await getSeriesCreationAccess(user.id);
+
+  if (!access.allowed) {
+    redirect(SERIES_CREATION_REDIRECT);
+  }
+
   const childrenItems = await listChildrenForSelection(user.id);
-  const starterOfferStatus = await getStarterOfferStatus(user.id);
+  const { starterOfferStatus } = access;
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-4xl px-4 py-6 sm:px-10 sm:py-10">

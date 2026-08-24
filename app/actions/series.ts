@@ -3,12 +3,14 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { ensureUserProfile } from "@/lib/account/ensure-profile";
+import { SERIES_CREATION_REDIRECT } from "@/lib/billing/series-access";
 import { findChildByUser } from "@/lib/data/children";
 import { createSeriesWithFirstEpisode } from "@/lib/data/generation";
 import { addSeriesEpisodePlan } from "@/lib/stories/series-plan";
 import { processStoryGeneration } from "@/lib/stories/generation";
 import { getGenerationActionError } from "@/lib/stories/generation-errors";
 import { requireUser } from "@/lib/auth/server";
+import { getSeriesCreationAccess } from "@/lib/payments/series-access";
 
 type SeriesActionState = {
   error?: string;
@@ -51,6 +53,11 @@ export async function createSeries(
 ): Promise<SeriesActionState> {
   const user = await requireUser();
   await ensureUserProfile(user.id, user.email);
+
+  const access = await getSeriesCreationAccess(user.id);
+  if (!access.allowed) {
+    redirect(SERIES_CREATION_REDIRECT);
+  }
 
   const parsed = seriesSchema.safeParse({
     childId: formData.get("childId"),
