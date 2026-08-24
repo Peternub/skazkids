@@ -84,21 +84,19 @@ export function ChildForm({
         </label>
       </div>
 
-      {child ? (
-        <label className="block">
-          <span className="mb-2 block text-sm font-medium text-[var(--text-main)]">
-            Друзья, близкие и важные персонажи
-          </span>
-          <textarea
-            name="additionalContext"
-            autoComplete="off"
-            rows={3}
-            maxLength={800}
-            defaultValue={child.additional_context ?? ""}
-            className={fieldClassName}
-          />
-        </label>
-      ) : null}
+      <label className="block">
+        <span className="mb-2 block text-sm font-medium text-[var(--text-main)]">
+          Друзья, близкие и важные персонажи
+        </span>
+        <textarea
+          name="additionalContext"
+          autoComplete="off"
+          rows={3}
+          maxLength={800}
+          defaultValue={child?.additional_context ?? ""}
+          className={fieldClassName}
+        />
+      </label>
 
       <label className="block">
         <span className="mb-2 block text-sm font-medium text-[var(--text-main)]">
