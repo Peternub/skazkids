@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { SeriesSubscriptionNotice } from "@/components/billing/series-subscription-notice";
 import { HouseSection } from "@/components/dashboard/house-section";
 import { PricingTabs } from "@/components/site/pricing-tabs";
+import { SERIES_CREATION_NOTICE } from "@/lib/billing/series-access";
 import {
   getBillingOverview,
   type SubscriptionPlanPreview
@@ -39,7 +41,12 @@ function formatDate(value: string | null) {
   }).format(new Date(value));
 }
 
-export default async function BillingPage() {
+type BillingPageProps = {
+  searchParams: Promise<{ notice?: string }>;
+};
+
+export default async function BillingPage({ searchParams }: BillingPageProps) {
+  const params = await searchParams;
   const user = await requireUser();
   const { subscription, storiesUsed } = await getBillingOverview(user.id);
   const plan = getPlan(subscription?.subscription_plans);
@@ -53,6 +60,7 @@ export default async function BillingPage() {
       eyebrow="Домашний кабинет"
       title="Тариф и управление тарифом"
     >
+      {params.notice === SERIES_CREATION_NOTICE ? <SeriesSubscriptionNotice /> : null}
       <section className="billing-vault" aria-labelledby="current-plan-title">
         <div className="billing-vault__safe" aria-hidden="true">
           <div className="billing-vault__door"><span /></div>
