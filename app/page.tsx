@@ -1,34 +1,31 @@
 import { ContactForm } from "@/components/site/contact-form";
 import { PricingTabs } from "@/components/site/pricing-tabs";
-import { BrandWordmark } from "@/components/site/brand-wordmark";
 
 const storyScenes = [
   "Вы пришли с работы, а ребенка уже надо укладывать спать.",
   "Ребенок хочет знакомую историю, где он сам главный герой.",
-  "Но вы вспоминаете про SkazKIDS...",
+  "И вы вспоминаете про SkazKIDS...",
   "И одной кнопкой создаете новую серию его личного вечернего сериала."
-];
-
-const qualityCards = [
-  {
-    title: 'Модель "Plus"',
-    subtitle: "Более ровный сюжет и аккуратная детализация",
-    value: 73,
-    tone: "plus"
-  },
-  {
-    title: 'Модель "Premium"',
-    subtitle: "Самая глубокая проработка истории и персонажей",
-    value: 98,
-    tone: "premium"
-  }
 ] as const;
 
-const metrics = [
-  "Качество текста",
-  "Связность сюжета",
-  "Проработка персонажей"
-];
+const howSteps = [
+  {
+    title: "Создайте профиль",
+    text: "Расскажите, сколько ребёнку лет, что он любит и кто ему особенно дорог."
+  },
+  {
+    title: "Задайте мир",
+    text: "Выберите героев, место действия и настроение будущего сериала."
+  },
+  {
+    title: "Нажмите одну кнопку",
+    text: "Каждый вечер сервис продолжит историю с учётом прошлых событий."
+  },
+  {
+    title: "Читайте вместе",
+    text: "Получите новую спокойную серию примерно на пять минут чтения."
+  }
+] as const;
 
 const reviews = [
   "После работы реально стало проще уложить сына: новая история каждый вечер и никаких уговоров.",
@@ -36,163 +33,125 @@ const reviews = [
   "Текст получается живым, а не шаблонным, поэтому сервис быстро стал частью нашего вечернего ритуала."
 ];
 
-function getQualityCardClass(tone: (typeof qualityCards)[number]["tone"]) {
-  if (tone === "premium") {
-    return "border-[var(--accent-gold)] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--surface-card-alt)_86%,transparent),color-mix(in_srgb,var(--accent-gold)_14%,var(--surface-card)))] ring-1 ring-[var(--accent-gold-soft)]";
-  }
-
-  if (tone === "plus") {
-    return "border-[var(--border-strong)] bg-[var(--surface-card-alt)]";
-  }
-
-  return "border-[var(--border-strong)] bg-[var(--surface-card-alt)]";
-}
-
 export default function HomePage() {
   return (
-    <main>
-      <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden px-4 py-12 sm:min-h-screen sm:px-6 sm:py-16">
-        <div className="hero-copy relative z-10 flex max-w-4xl flex-col items-center text-center">
-          <h1 className="hero-wordmark">
-            <BrandWordmark />
+    <main className="landing-page">
+      <section className="landing-hero landing-band landing-band--black">
+        <MotionCanvas variant="hero" />
+        <div className="landing-hero__content">
+          <h1 className="landing-hero__title">
+            <span>Skaz</span><strong>KIDS</strong>
           </h1>
-          <p className="hero-copy__subtitle mt-5 max-w-2xl text-base leading-7 text-[var(--logo-text)] sm:mt-6 sm:text-xl sm:leading-8">
-            Вечерние сериалы, которые продолжаются одной кнопкой.
+          <p className="landing-hero__description">
+            <span aria-hidden="true">—</span>
+            сервис персональных вечерних сериалов для детей, которые продолжаются одной кнопкой
           </p>
         </div>
+        <span className="landing-scroll-hint" aria-hidden="true">Листайте вниз</span>
       </section>
 
-      <section className="story-sequence">
-        {storyScenes.map((scene, index) => (
-          <section key={scene} className="story-sequence__panel">
-            <div className="story-sequence__content">
-              <p className="story-sequence__line is-active">
-                {index === 2 ? (
-                  <>
-                    Но вы вспоминаете про <BrandWordmark className="story-brand-wordmark" />...
-                  </>
-                ) : (
-                  scene
-                )}
-              </p>
+      {storyScenes.map((scene, index) => (
+        <section
+          key={scene}
+          className={`landing-story landing-band ${index % 2 === 0 ? "landing-band--gray" : "landing-band--dark"}`}
+        >
+          <MotionCanvas variant={`scene-${index + 1}`} />
+          <div className="landing-story__content">
+            <span className="landing-story__number">0{index + 2}</span>
+            <h2>{scene}</h2>
+          </div>
+        </section>
+      ))}
+
+      <section id="how" className="landing-section landing-band landing-band--gray">
+        <div className="landing-container">
+          <SectionHeading eyebrow="Как это устроено" title="Как работает наш сервис" />
+
+          <div className="how-flow">
+            <svg className="how-flow__arrows" viewBox="0 0 1200 360" aria-hidden="true">
+              <defs>
+                <marker id="flow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" />
+                </marker>
+              </defs>
+              <path d="M250 126 C282 62 314 188 352 126" />
+              <path d="M548 126 C580 190 612 58 650 126" />
+              <path d="M846 126 C880 66 912 188 952 126" />
+              <path className="how-flow__return" d="M1064 236 C1010 342 214 350 136 236" />
+            </svg>
+
+            <div className="how-flow__grid">
+              {howSteps.map((step, index) => (
+                <article key={step.title} className="how-card">
+                  <div className={`how-card__visual how-card__visual--${index + 1}`} aria-hidden="true">
+                    <span className="how-card__shape how-card__shape--a" />
+                    <span className="how-card__shape how-card__shape--b" />
+                    <strong>0{index + 1}</strong>
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                  <span className="how-card__mobile-arrow" aria-hidden="true">↝</span>
+                </article>
+              ))}
             </div>
-          </section>
-        ))}
-      </section>
-
-      <section id="pricing" className="px-4 pb-16 pt-10 text-[var(--text-main)] sm:px-6 sm:pb-24 sm:pt-12">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-center font-display text-3xl sm:text-5xl">
-            Качество генерации серии
-          </h2>
-
-          <div className="mx-auto mt-8 grid max-w-4xl gap-4 sm:mt-14 sm:gap-6 md:grid-cols-2">
-            {qualityCards.map((card) => (
-              <article
-                key={card.title}
-                className={`rounded-lg border p-5 shadow-glow sm:p-6 ${getQualityCardClass(card.tone)}`}
-                style={{
-                  boxShadow:
-                    card.tone === "premium"
-                      ? "var(--glow-shadow), 0 0 38px color-mix(in srgb, var(--accent-gold) 18%, transparent)"
-                      : "var(--glow-shadow)"
-                }}
-              >
-                <h3 className="text-2xl font-semibold">{card.title}</h3>
-                <p className="mt-2 text-sm text-[var(--text-soft)]">{card.subtitle}</p>
-
-                <div className="mt-8 grid gap-5">
-                  {metrics.map((metric) => (
-                    <div key={metric}>
-                      <div className="mb-2 flex items-center justify-between gap-4 text-sm font-medium">
-                        <span>{metric}</span>
-                        <span>{card.value}%</span>
-                      </div>
-                      <div className="story-meter">
-                        <div
-                          className="story-meter__fill"
-                          style={{ width: `${card.value}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </article>
-            ))}
           </div>
-
-          <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-7 text-[var(--text-soft)] sm:text-lg sm:leading-8">
-            Модель "Plus" дает заметно более ровный результат, а модель "Premium" делает
-            историю глубже, живее и богаче по деталям.
-          </p>
         </div>
       </section>
 
-      <section className="px-4 pb-16 text-[var(--text-main)] sm:px-6 sm:pb-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-8 text-center sm:mb-10">
-            <p className="text-sm uppercase tracking-[0.3em] text-[var(--logo-text)]">
-              Тарифы
-            </p>
-            <h2 className="mt-4 font-display text-3xl sm:text-5xl">
-              Выберите качество без ограничений
-            </h2>
+      <section id="pricing" className="landing-section landing-band landing-band--dark">
+        <div className="landing-container">
+          <SectionHeading eyebrow="Тарифы" title="Выберите качество своей истории" />
+          <div className="landing-section__body">
+            <PricingTabs />
           </div>
-
-          <PricingTabs />
         </div>
       </section>
 
-      <section id="reviews" className="px-4 py-16 text-[var(--text-main)] sm:px-6 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center">
-            <p className="text-sm uppercase tracking-[0.3em] text-[var(--logo-text)]">
-              Отзывы
-            </p>
-            <h2 className="mt-4 font-display text-3xl sm:text-5xl">
-              Как родители описывают сервис
-            </h2>
-          </div>
-
-          <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-3">
+      <section id="reviews" className="landing-section landing-band landing-band--gray">
+        <div className="landing-container">
+          <SectionHeading eyebrow="Отзывы" title="Вечера, которые стали проще" />
+          <div className="landing-reviews">
             {reviews.map((review, index) => (
-              <article
-                key={review}
-                className={`rounded-lg border p-5 sm:p-6 ${
-                  index === 1
-                    ? "border-[var(--border-strong)] bg-[var(--surface-card-alt)]"
-                    : "border-[var(--border-soft)] bg-[var(--surface-card)]"
-                }`}
-                style={{ boxShadow: "var(--glow-shadow)" }}
-              >
-                <p className="text-base leading-8 text-[var(--text-soft)]">{review}</p>
+              <article key={review} className="landing-review">
+                <span>0{index + 1}</span>
+                <p>{review}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="contact" className="px-4 py-16 text-[var(--text-main)] sm:px-6 sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-          <div
-            className="contact-card rounded-lg border border-[var(--border-soft)] bg-[var(--surface-card-alt)] p-5 sm:p-8"
-            style={{ boxShadow: "var(--glow-shadow)" }}
-          >
-            <p className="text-sm uppercase tracking-[0.3em] text-[var(--logo-text)]">
-              Связаться
-            </p>
-            <h2 className="mt-4 font-display text-3xl sm:text-4xl">
-              Связаться с нами по любым вопросам
-            </h2>
-            <p className="mt-6 text-base leading-8 text-[var(--text-soft)]">
-              Напишите нам, если хотите обсудить сервис, тарифы или любые детали
-              работы SkazKIDS.
-            </p>
+      <section id="contact" className="landing-section landing-band landing-band--dark">
+        <div className="landing-container landing-contact">
+          <div className="landing-contact__copy">
+            <p className="section-heading__eyebrow">Связаться</p>
+            <h2>Есть вопрос?<br />Напишите нам.</h2>
+            <p>Обсудим сервис, тарифы или любые детали работы SkazKIDS.</p>
           </div>
-
           <ContactForm />
         </div>
       </section>
     </main>
+  );
+}
+
+function MotionCanvas({ variant }: { variant: string }) {
+  return (
+    <div className={`motion-canvas motion-canvas--${variant}`} aria-hidden="true">
+      <span className="motion-canvas__grid" />
+      <span className="motion-canvas__orb motion-canvas__orb--one" />
+      <span className="motion-canvas__orb motion-canvas__orb--two" />
+      <span className="motion-canvas__line" />
+      <span className="motion-canvas__noise" />
+    </div>
+  );
+}
+
+function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="section-heading">
+      <p className="section-heading__eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
   );
 }
