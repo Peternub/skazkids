@@ -3743,30 +3743,54 @@ header img {
 
 .how-card__visual {
   position: relative;
-  height: 14rem;
+  height: auto;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #202020;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .how-card__visual::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 2rem 2rem;
+  background: linear-gradient(180deg, transparent 64%, rgba(0, 0, 0, 0.42) 100%);
+}
+
+.how-card__visual--1 {
+  background-image: url("/landing/how-1.jpg");
+}
+
+.how-card__visual--2 {
+  background-image: url("/landing/how-2.jpg");
+}
+
+.how-card__visual--3 {
+  background-image: url("/landing/how-3.jpg");
+}
+
+.how-card__visual--4 {
+  background-image: url("/landing/how-4.jpg");
 }
 
 .how-card__visual strong {
   position: absolute;
-  right: 0.9rem;
-  bottom: 0.45rem;
+  right: 0.6rem;
+  bottom: 0.55rem;
   z-index: 2;
+  display: inline-flex;
+  min-width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 230, 0, 0.72);
+  background: rgba(0, 0, 0, 0.78);
   color: var(--accent-gold);
-  font-size: 3.5rem;
+  font-size: 0.72rem;
   font-weight: 950;
-  letter-spacing: -0.08em;
+  letter-spacing: 0.08em;
 }
 
 .how-card__shape {

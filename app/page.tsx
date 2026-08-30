@@ -106,8 +106,6 @@ export default function HomePage() {
               {howSteps.map((step, index) => (
                 <article key={step.title} className="how-card">
                   <div className={`how-card__visual how-card__visual--${index + 1}`} aria-hidden="true">
-                    <span className="how-card__shape how-card__shape--a" />
-                    <span className="how-card__shape how-card__shape--b" />
                     <strong>0{index + 1}</strong>
                   </div>
                   <h3>{step.title}</h3>
