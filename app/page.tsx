@@ -1,11 +1,33 @@
+import type { CSSProperties } from "react";
 import { ContactForm } from "@/components/site/contact-form";
 import { PricingTabs } from "@/components/site/pricing-tabs";
 
+const heroArtwork = {
+  desktop: "/landing/hero-desktop.jpg",
+  mobile: "/landing/hero-mobile.jpg"
+} as const;
+
 const storyScenes = [
-  "Вы пришли с работы, а ребенка уже надо укладывать спать.",
-  "Ребенок хочет знакомую историю, где он сам главный герой.",
-  "И вы вспоминаете про SkazKIDS...",
-  "И одной кнопкой создаете новую серию его личного вечернего сериала."
+  {
+    text: "Вы пришли с работы, а ребенка уже надо укладывать спать.",
+    desktop: "/landing/story-1-desktop.jpg",
+    mobile: "/landing/story-1-mobile.jpg"
+  },
+  {
+    text: "Ребенок хочет знакомую историю, где он сам главный герой.",
+    desktop: "/landing/story-2-desktop.jpg",
+    mobile: "/landing/story-2-mobile.jpg"
+  },
+  {
+    text: "И вы вспоминаете про SkazKIDS...",
+    desktop: "/landing/story-3-desktop.jpg",
+    mobile: "/landing/story-3-mobile.jpg"
+  },
+  {
+    text: "И одной кнопкой создаете новую серию его личного вечернего сериала.",
+    desktop: "/landing/story-4-desktop.jpg",
+    mobile: "/landing/story-4-desktop.jpg"
+  }
 ] as const;
 
 const howSteps = [
@@ -37,7 +59,7 @@ export default function HomePage() {
   return (
     <main className="landing-page">
       <section className="landing-hero landing-band landing-band--black">
-        <MotionCanvas variant="hero" />
+        <LandingArtwork variant="hero" {...heroArtwork} />
         <div className="landing-hero__content">
           <h1 className="landing-hero__title">
             <span>Skaz</span><strong>KIDS</strong>
@@ -52,13 +74,13 @@ export default function HomePage() {
 
       {storyScenes.map((scene, index) => (
         <section
-          key={scene}
+          key={scene.text}
           className={`landing-story landing-band ${index % 2 === 0 ? "landing-band--gray" : "landing-band--dark"}`}
         >
-          <MotionCanvas variant={`scene-${index + 1}`} />
+          <LandingArtwork variant={`scene-${index + 1}`} desktop={scene.desktop} mobile={scene.mobile} />
           <div className="landing-story__content">
             <span className="landing-story__number">0{index + 2}</span>
-            <h2>{scene}</h2>
+            <h2>{scene.text}</h2>
           </div>
         </section>
       ))}
@@ -135,15 +157,22 @@ export default function HomePage() {
   );
 }
 
-function MotionCanvas({ variant }: { variant: string }) {
+function LandingArtwork({
+  desktop,
+  mobile,
+  variant
+}: {
+  desktop: string;
+  mobile: string;
+  variant: string;
+}) {
+  const style = {
+    "--landing-art-desktop": `url("${desktop}")`,
+    "--landing-art-mobile": `url("${mobile}")`
+  } as CSSProperties;
+
   return (
-    <div className={`motion-canvas motion-canvas--${variant}`} aria-hidden="true">
-      <span className="motion-canvas__grid" />
-      <span className="motion-canvas__orb motion-canvas__orb--one" />
-      <span className="motion-canvas__orb motion-canvas__orb--two" />
-      <span className="motion-canvas__line" />
-      <span className="motion-canvas__noise" />
-    </div>
+    <div className={`landing-artwork landing-artwork--${variant}`} style={style} aria-hidden="true" />
   );
 }
 

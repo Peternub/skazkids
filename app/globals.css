@@ -3469,6 +3469,54 @@ header img {
   text-wrap: balance;
 }
 
+.landing-artwork {
+  position: absolute;
+  inset: -1.5%;
+  z-index: 0;
+  background-image: var(--landing-art-desktop);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.015);
+  animation: landing-artwork-drift 18s ease-in-out infinite alternate;
+}
+
+.landing-artwork::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.32) 0%, transparent 58%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0%, transparent 38%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.landing-artwork::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, transparent 38%, rgba(0, 0, 0, 0.22) 100%);
+}
+
+.landing-artwork--hero {
+  background-position: center 48%;
+}
+
+.landing-artwork--scene-1 {
+  background-position: center 46%;
+}
+
+.landing-artwork--scene-2 {
+  background-position: center 44%;
+}
+
+.landing-artwork--scene-3 {
+  background-position: center 42%;
+}
+
+.landing-artwork--scene-4 {
+  background-position: center 48%;
+}
+
 .motion-canvas {
   position: absolute;
   inset: 0;
@@ -3862,6 +3910,15 @@ header img {
   }
 }
 
+@keyframes landing-artwork-drift {
+  from {
+    transform: scale(1.015) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.055) translate3d(-0.45%, -0.35%, 0);
+  }
+}
+
 @keyframes landing-orbit-one {
   0%, 100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
@@ -3977,6 +4034,20 @@ header img {
     font-size: clamp(2.65rem, 12vw, 5rem);
   }
 
+  .landing-artwork {
+    background-image: var(--landing-art-mobile);
+    background-position: center;
+  }
+
+  .landing-artwork::before {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, transparent 34%, rgba(0, 0, 0, 0.9) 100%);
+  }
+
+  .landing-artwork--scene-4 {
+    background-position: center;
+  }
+
   .motion-canvas__orb--one {
     right: -28%;
     width: 28rem;
@@ -4020,6 +4091,7 @@ header img {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .landing-artwork,
   .motion-canvas *,
   .landing-scroll-hint::after,
   .how-flow__arrows path,
