@@ -3367,6 +3367,16 @@ header img {
   background: #101010;
 }
 
+.landing-pricing {
+  background-color: #101010;
+  background-image:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.48), rgba(5, 5, 5, 0.68)),
+    url("/landing/pricing-desktop.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .landing-hero,
 .landing-story {
   min-height: calc(100svh - 5rem);
@@ -4036,6 +4046,13 @@ header img {
 }
 
 @media (max-width: 767px) {
+  .landing-pricing {
+    background-image:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.44), rgba(5, 5, 5, 0.68)),
+      url("/landing/pricing-mobile.png");
+    background-position: center;
+  }
+
   .landing-hero,
   .landing-story {
     min-height: calc(100svh - 4rem);

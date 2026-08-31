@@ -118,7 +118,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="pricing" className="landing-section landing-band landing-band--dark">
+      <section id="pricing" className="landing-section landing-band landing-band--dark landing-pricing">
         <div className="landing-container">
           <SectionHeading eyebrow="Тарифы" title="Выберите качество своей истории" />
           <div className="landing-section__body">
