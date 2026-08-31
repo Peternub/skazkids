@@ -14,7 +14,7 @@ const storyScenes = [
     mobile: "/landing/story-1-mobile.jpg"
   },
   {
-    text: "Ребенок хочет знакомую историю, где он сам главный герой.",
+    text: "Ребенок хочет историю, где он главный герой.",
     desktop: "/landing/story-2-desktop.jpg",
     mobile: "/landing/story-2-mobile.jpg"
   },
@@ -24,7 +24,7 @@ const storyScenes = [
     mobile: "/landing/story-3-mobile.jpg"
   },
   {
-    text: "И одной кнопкой создаете новую серию его личного вечернего сериала.",
+    text: "И одной кнопкой создаете новую серию его личного сериала.",
     desktop: "/landing/story-4-desktop.jpg",
     mobile: "/landing/story-4-desktop.jpg"
   }
