@@ -3745,8 +3745,9 @@ header img {
 
 .how-card {
   min-height: 28rem;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0;
+  border-radius: 1rem;
   background: #0c0c0c;
   padding: 0.65rem 0.65rem 1.6rem;
 }
@@ -3865,16 +3866,19 @@ header img {
 }
 
 .landing-section .rounded-lg {
-  border-radius: 0;
+  border-radius: 0.9rem;
 }
 
 .landing-section article {
   box-shadow: none !important;
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms ease;
 }
 
 .landing-section article:hover {
-  border-color: var(--accent-gold);
-  box-shadow: 10px 10px 0 var(--accent-gold-soft) !important;
+  box-shadow: 0 1.2rem 2.6rem rgba(0, 0, 0, 0.34) !important;
+  transform: translateY(-0.5rem);
 }
 
 .landing-reviews {
@@ -3886,6 +3890,7 @@ header img {
 .landing-review {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1rem;
   background: #111111;
 }
 
