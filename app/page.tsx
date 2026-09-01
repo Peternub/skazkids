@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { ContactForm } from "@/components/site/contact-form";
 import { PricingTabs } from "@/components/site/pricing-tabs";
 
@@ -50,10 +51,19 @@ const howSteps = [
 ] as const;
 
 const reviews = [
-  "После работы реально стало проще уложить сына: новая история каждый вечер и никаких уговоров.",
-  "Дочке нравится, что в сериях появляются ее друзья, любимые места и знакомые мелочи дня.",
-  "Текст получается живым, а не шаблонным, поэтому сервис быстро стал частью нашего вечернего ритуала."
-];
+  {
+    src: "/landing/review-1.png",
+    alt: "Отзыв о том, что после работы стало проще укладывать сына"
+  },
+  {
+    src: "/landing/review-2.png",
+    alt: "Отзыв о персональных историях для дочери"
+  },
+  {
+    src: "/landing/review-3.png",
+    alt: "Отзыв о живых текстах и вечернем ритуале"
+  }
+] as const;
 
 export default function HomePage() {
   return (
@@ -118,7 +128,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="pricing" className="landing-section landing-band landing-band--dark landing-pricing">
+      <section id="pricing" className="landing-section landing-band landing-band--dark landing-shared-background">
         <div className="landing-container">
           <SectionHeading eyebrow="Тарифы" title="Выберите качество своей истории" />
           <div className="landing-section__body">
@@ -127,21 +137,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="reviews" className="landing-section landing-band landing-band--gray">
+      <section id="reviews" className="landing-section landing-band landing-band--gray landing-shared-background">
         <div className="landing-container">
           <SectionHeading eyebrow="Отзывы" title="Вечера, которые стали проще" />
           <div className="landing-reviews">
-            {reviews.map((review, index) => (
-              <article key={review} className="landing-review">
-                <span>0{index + 1}</span>
-                <p>{review}</p>
+            {reviews.map((review) => (
+              <article key={review.src} className="landing-review">
+                <Image
+                  src={review.src}
+                  alt={review.alt}
+                  width={1254}
+                  height={1254}
+                  sizes="(max-width: 767px) 100vw, 33vw"
+                />
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="contact" className="landing-section landing-band landing-band--dark">
+      <section id="contact" className="landing-section landing-band landing-band--dark landing-shared-background">
         <div className="landing-container landing-contact">
           <div className="landing-contact__copy">
             <p className="section-heading__eyebrow">Связаться</p>

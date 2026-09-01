@@ -3367,7 +3367,7 @@ header img {
   background: #101010;
 }
 
-.landing-pricing {
+.landing-shared-background {
   background-color: #101010;
   background-image:
     linear-gradient(180deg, rgba(5, 5, 5, 0.48), rgba(5, 5, 5, 0.68)),
@@ -3880,34 +3880,19 @@ header img {
 .landing-reviews {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  gap: clamp(0.8rem, 1.5vw, 1.5rem);
 }
 
 .landing-review {
-  min-height: 22rem;
-  border: 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.14);
-  background: transparent;
-  padding: 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #111111;
 }
 
-.landing-review:last-child {
-  border-right: 0;
-}
-
-.landing-review > span {
-  color: var(--accent-gold);
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 0.2em;
-}
-
-.landing-review p {
-  margin: 5.5rem 0 0;
-  color: #ffffff;
-  font-size: clamp(1.25rem, 2vw, 1.8rem);
-  font-weight: 700;
-  line-height: 1.35;
+.landing-review img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .landing-contact {
@@ -4046,7 +4031,7 @@ header img {
 }
 
 @media (max-width: 767px) {
-  .landing-pricing {
+  .landing-shared-background {
     background-image:
       linear-gradient(180deg, rgba(5, 5, 5, 0.44), rgba(5, 5, 5, 0.68)),
       url("/landing/pricing-mobile.png");
@@ -4112,18 +4097,6 @@ header img {
 
   .how-card {
     min-height: 24rem;
-  }
-
-  .landing-review,
-  .landing-review:last-child {
-    min-height: 16rem;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-    padding-inline: 0;
-  }
-
-  .landing-review p {
-    margin-top: 3rem;
   }
 
   .landing-contact {
