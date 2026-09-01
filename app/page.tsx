@@ -95,7 +95,7 @@ export default function HomePage() {
         </section>
       ))}
 
-      <section id="how" className="landing-section landing-band landing-band--gray">
+      <section id="how" className="landing-section landing-band landing-band--gray landing-shared-background">
         <div className="landing-container">
           <SectionHeading eyebrow="Как это устроено" title="Как работает наш сервис" />
 
