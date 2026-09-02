@@ -3371,7 +3371,7 @@ header img {
   background-color: #101010;
   background-image:
     linear-gradient(180deg, rgba(5, 5, 5, 0.48), rgba(5, 5, 5, 0.68)),
-    url("/landing/pricing-desktop.png");
+    url("/landing/pricing-desktop.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3483,12 +3483,18 @@ header img {
   position: absolute;
   inset: -1.5%;
   z-index: 0;
-  background-image: var(--landing-art-desktop);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  display: block;
+  background: #0b0b0b;
   transform: scale(1.015);
   animation: landing-artwork-drift 18s ease-in-out infinite alternate;
+}
+
+.landing-artwork__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .landing-artwork::before {
@@ -3507,24 +3513,24 @@ header img {
   background: radial-gradient(circle at 50% 45%, transparent 38%, rgba(0, 0, 0, 0.22) 100%);
 }
 
-.landing-artwork--hero {
-  background-position: center 48%;
+.landing-artwork--hero .landing-artwork__image {
+  object-position: center 48%;
 }
 
-.landing-artwork--scene-1 {
-  background-position: center 46%;
+.landing-artwork--scene-1 .landing-artwork__image {
+  object-position: center 46%;
 }
 
-.landing-artwork--scene-2 {
-  background-position: center 44%;
+.landing-artwork--scene-2 .landing-artwork__image {
+  object-position: center 44%;
 }
 
-.landing-artwork--scene-3 {
-  background-position: center 42%;
+.landing-artwork--scene-3 .landing-artwork__image {
+  object-position: center 42%;
 }
 
-.landing-artwork--scene-4 {
-  background-position: center 48%;
+.landing-artwork--scene-4 .landing-artwork__image {
+  object-position: center 48%;
 }
 
 .motion-canvas {
@@ -3771,19 +3777,19 @@ header img {
 }
 
 .how-card__visual--1 {
-  background-image: url("/landing/how-1.jpg");
+  background-image: url("/landing/how-1.webp");
 }
 
 .how-card__visual--2 {
-  background-image: url("/landing/how-2.jpg");
+  background-image: url("/landing/how-2.webp");
 }
 
 .how-card__visual--3 {
-  background-image: url("/landing/how-3.jpg");
+  background-image: url("/landing/how-3.webp");
 }
 
 .how-card__visual--4 {
-  background-image: url("/landing/how-4.jpg");
+  background-image: url("/landing/how-4.webp");
 }
 
 .how-card__visual strong {
@@ -4039,7 +4045,7 @@ header img {
   .landing-shared-background {
     background-image:
       linear-gradient(180deg, rgba(5, 5, 5, 0.44), rgba(5, 5, 5, 0.68)),
-      url("/landing/pricing-mobile.png");
+      url("/landing/pricing-mobile.webp");
     background-position: center;
   }
 
@@ -4065,9 +4071,8 @@ header img {
     font-size: clamp(2.65rem, 12vw, 5rem);
   }
 
-  .landing-artwork {
-    background-image: var(--landing-art-mobile);
-    background-position: center;
+  .landing-artwork__image {
+    object-position: center;
   }
 
   .landing-artwork::before {

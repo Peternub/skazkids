@@ -1,33 +1,32 @@
-import type { CSSProperties } from "react";
 import Image from "next/image";
 import { ContactForm } from "@/components/site/contact-form";
 import { PricingTabs } from "@/components/site/pricing-tabs";
 
 const heroArtwork = {
-  desktop: "/landing/hero-desktop.jpg",
-  mobile: "/landing/hero-mobile.jpg"
+  desktop: "/landing/hero-desktop.webp",
+  mobile: "/landing/hero-mobile.webp"
 } as const;
 
 const storyScenes = [
   {
     text: "Вы пришли с работы, а ребенка уже надо укладывать спать.",
-    desktop: "/landing/story-1-desktop.jpg",
-    mobile: "/landing/story-1-mobile.jpg"
+    desktop: "/landing/story-1-desktop.webp",
+    mobile: "/landing/story-1-mobile.webp"
   },
   {
     text: "Ребенок хочет историю, где он главный герой.",
-    desktop: "/landing/story-2-desktop.jpg",
-    mobile: "/landing/story-2-mobile.jpg"
+    desktop: "/landing/story-2-desktop.webp",
+    mobile: "/landing/story-2-mobile.webp"
   },
   {
     text: "И вы вспоминаете про SkazKIDS...",
-    desktop: "/landing/story-3-desktop.jpg",
-    mobile: "/landing/story-3-mobile.jpg"
+    desktop: "/landing/story-3-desktop.webp",
+    mobile: "/landing/story-3-mobile.webp"
   },
   {
     text: "И одной кнопкой создаете новую серию его личного сериала.",
-    desktop: "/landing/story-4-desktop.jpg",
-    mobile: "/landing/story-4-desktop.jpg"
+    desktop: "/landing/story-4-desktop.webp",
+    mobile: "/landing/story-4-desktop.webp"
   }
 ] as const;
 
@@ -52,15 +51,15 @@ const howSteps = [
 
 const reviews = [
   {
-    src: "/landing/review-1.png",
+    src: "/landing/review-1.webp",
     alt: "Отзыв о том, что после работы стало проще укладывать сына"
   },
   {
-    src: "/landing/review-2.png",
+    src: "/landing/review-2.webp",
     alt: "Отзыв о персональных историях для дочери"
   },
   {
-    src: "/landing/review-3.png",
+    src: "/landing/review-3.webp",
     alt: "Отзыв о живых текстах и вечернем ритуале"
   }
 ] as const;
@@ -146,8 +145,8 @@ export default function HomePage() {
                 <Image
                   src={review.src}
                   alt={review.alt}
-                  width={1254}
-                  height={1254}
+                  width={1100}
+                  height={1100}
                   sizes="(max-width: 767px) 100vw, 33vw"
                 />
               </article>
@@ -179,13 +178,20 @@ function LandingArtwork({
   mobile: string;
   variant: string;
 }) {
-  const style = {
-    "--landing-art-desktop": `url("${desktop}")`,
-    "--landing-art-mobile": `url("${mobile}")`
-  } as CSSProperties;
+  const isHero = variant === "hero";
 
   return (
-    <div className={`landing-artwork landing-artwork--${variant}`} style={style} aria-hidden="true" />
+    <picture className={`landing-artwork landing-artwork--${variant}`} aria-hidden="true">
+      <source media="(max-width: 767px)" srcSet={mobile} />
+      <img
+        className="landing-artwork__image"
+        src={desktop}
+        alt=""
+        loading={isHero ? "eager" : "lazy"}
+        fetchPriority={isHero ? "high" : "auto"}
+        decoding="async"
+      />
+    </picture>
   );
 }
 
