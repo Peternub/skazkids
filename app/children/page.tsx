@@ -12,10 +12,9 @@ export default async function ChildrenPage() {
   return (
     <HouseSection
       room="gallery"
-      eyebrow="Семейная галерея"
-      title="Профиль ребёнка / детей"
+      title="Профиль ребёнка"
     >
-      <section aria-label="Семейная галерея">
+      <section aria-label="Профили детей">
         <ChildrenList childrenItems={childrenItems} />
       </section>
     </HouseSection>

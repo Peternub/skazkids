@@ -35,7 +35,6 @@ export default async function SeriesPage({ searchParams }: SeriesPageProps) {
   return (
     <HouseSection
       room="cinema"
-      eyebrow="Живая библиотека"
       title="Библиотека сериалов и серий"
       actions={
         <>

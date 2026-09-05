@@ -57,22 +57,11 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
   return (
     <HouseSection
       room="study"
-      eyebrow="Домашний кабинет"
       title="Тариф и управление тарифом"
     >
       {params.notice === SERIES_CREATION_NOTICE ? <SeriesSubscriptionNotice /> : null}
-      <section className="billing-vault" aria-labelledby="current-plan-title">
-        <div className="billing-vault__safe" aria-hidden="true">
-          <div className="billing-vault__door"><span /></div>
-          <div className="billing-vault__inside">
-            <span>MS</span>
-            <span />
-            <span />
-          </div>
-        </div>
-
-        <article className="house-panel billing-current-plan">
-          {subscription && plan ? (
+      {subscription && plan ? (
+        <section className="billing-current-plan" aria-labelledby="current-plan-title">
             <>
               <div className="billing-current-plan__topline">
                 <div>
@@ -127,15 +116,15 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
                 Отмена — после подключения оплаты.
               </p>
             </>
-          ) : (
-            <div className="billing-no-plan">
-              <p>Сейф открыт</p>
-              <h2 id="current-plan-title">Тариф пока не выбран</h2>
-              <Link href="#plans" className="house-primary-button">Посмотреть варианты</Link>
-            </div>
-          )}
-        </article>
-      </section>
+        </section>
+      ) : null}
+
+      <a href="#plans" className="billing-plan-pointer">
+        <span>Выберите тариф</span>
+        <svg viewBox="0 0 120 150" aria-hidden="true">
+          <path d="M30 10C100 0 110 75 64 73C22 71 35 36 66 49C101 64 75 109 60 133M42 111L60 133L84 116" />
+        </svg>
+      </a>
 
       <section id="plans" className="house-panel billing-plans">
         <div className="billing-plans__heading">

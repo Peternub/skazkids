@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { HeaderAuthActions } from "@/components/site/header-auth-actions";
 import { BrandWordmark } from "@/components/site/brand-wordmark";
 
@@ -17,14 +16,6 @@ export function SiteHeader() {
       <header className="sticky top-0 z-[60] border-b border-[var(--border-soft)] bg-[var(--header-bg)] backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-10 lg:py-5">
           <Link href="/" className="flex shrink-0 items-center gap-3 text-[var(--logo-text)]">
-            <Image
-              src="/skazkids-logo.png"
-              alt=""
-              width={48}
-              height={48}
-              priority
-              className="h-10 w-10 rounded-lg object-cover sm:h-12 sm:w-12"
-            />
             <BrandWordmark className="header-brand-wordmark" />
           </Link>
 

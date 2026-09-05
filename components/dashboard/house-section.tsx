@@ -5,7 +5,7 @@ type HouseSectionProps = {
   actions?: ReactNode;
   children: ReactNode;
   description?: string;
-  eyebrow: string;
+  eyebrow?: string;
   room: "cinema" | "gallery" | "study";
   title: string;
 };
@@ -27,7 +27,7 @@ export function HouseSection({
               <span aria-hidden="true">⌂</span>
               Вернуться в дом
             </Link>
-            <p>{eyebrow}</p>
+            {eyebrow ? <p>{eyebrow}</p> : null}
             <h1>{title}</h1>
             {description ? <div>{description}</div> : null}
           </div>

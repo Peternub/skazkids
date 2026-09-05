@@ -2480,16 +2480,12 @@ select:-webkit-autofill:focus {
 }
 
 .brand-wordmark__kids {
-  background-image: linear-gradient(
-    180deg,
-    #628578 0%,
-    #34584d 52%,
-    #1f3b34 100%
-  );
+  background-image: linear-gradient(180deg, #eee59a, #d6c83f);
 }
 
 .header-brand-wordmark {
-  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  letter-spacing: -0.055em;
 }
 
 .story-brand-wordmark {
@@ -4131,4 +4127,183 @@ header img {
 .family-profile__avatar,
 .series-tree {
   filter: grayscale(1) contrast(1.08);
+}
+
+/* Внутренние разделы на общем чёрном фоне. */
+.house-section {
+  background: #080808;
+}
+
+.house-section__workspace,
+.house-section .house-panel,
+.house-section .tree-current,
+.house-section .tree-collection,
+.house-section .tree-collection-card,
+.house-section .tree-library-empty,
+.house-section .series-tree {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.house-section__header {
+  border-bottom: 0;
+}
+
+.house-section .house-primary-button {
+  color: #080808;
+  box-shadow: none;
+}
+
+.house-section .billing-status--active,
+.house-section .tree-progress strong,
+.house-section .tree-collection-card__copy > span {
+  color: var(--accent-gold);
+  background: transparent;
+}
+
+.house-section .billing-usage__track > span,
+.house-section .tree-library-empty__seed::before,
+.house-section .tree-library-empty__seed::after {
+  background: var(--accent-gold);
+}
+
+.child-profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.child-profiles-empty {
+  display: grid;
+  min-height: 24rem;
+  place-items: center;
+}
+
+.child-add-link {
+  display: grid;
+  width: 100%;
+  min-height: 20rem;
+  place-items: center;
+  color: var(--accent-gold);
+}
+
+.child-add-link svg {
+  width: clamp(6rem, 12vw, 9rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 15;
+  animation: child-plus-pulse 2.8s ease-in-out infinite;
+}
+
+.child-add-link:focus-visible,
+.billing-plan-pointer:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 6px;
+}
+
+.child-profile {
+  min-width: 0;
+}
+
+.child-profile > h2 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.child-parchment {
+  padding: clamp(2rem, 5vw, 3.5rem);
+  color: #382916;
+  background:
+    radial-gradient(ellipse at 8% 20%, #ab743d55, transparent 38%),
+    radial-gradient(ellipse at 85% 85%, #a9763850, transparent 45%),
+    repeating-linear-gradient(3deg, #81552808 0 1px, transparent 1px 4px),
+    linear-gradient(110deg, #d6b77b, #f0dfb1 35%, #e4ca91 75%, #cba369);
+  clip-path: polygon(1% 2%, 7% 0, 13% 2%, 21% 1%, 29% 3%, 37% 0, 46% 2%, 55% 1%, 64% 3%, 73% 0, 83% 2%, 92% 1%, 99% 3%, 98% 14%, 100% 24%, 98% 36%, 100% 46%, 98% 59%, 100% 71%, 98% 84%, 99% 98%, 90% 97%, 81% 100%, 72% 98%, 63% 100%, 53% 97%, 44% 99%, 35% 98%, 24% 100%, 15% 97%, 2% 99%, 3% 87%, 0 77%, 2% 65%, 0 53%, 2% 42%, 0 29%, 2% 17%);
+}
+
+.child-parchment__facts {
+  display: grid;
+  gap: 1.5rem;
+  font-family: Georgia, "Times New Roman", serif;
+  overflow-wrap: anywhere;
+}
+
+.child-parchment__facts dt {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.child-parchment__facts dd {
+  font-size: 1.2rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.child-parchment .family-profile__actions {
+  margin-top: 2rem;
+}
+
+.child-parchment .house-primary-button {
+  border-color: #584025;
+  background: transparent;
+  color: #382916;
+}
+
+.child-parchment .family-profile__delete {
+  color: #653325;
+}
+
+.billing-plan-pointer {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem auto 2rem;
+  color: var(--accent-gold);
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 750;
+}
+
+.billing-plan-pointer svg {
+  width: 7rem;
+  height: 9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: billing-arrow-bounce 2.2s ease-in-out infinite;
+}
+
+.billing-plans {
+  scroll-margin-top: 9rem;
+}
+
+@keyframes child-plus-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.9); }
+}
+
+@keyframes billing-arrow-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(12px); }
+}
+
+@media (max-width: 767px) {
+  .child-profiles-grid { grid-template-columns: minmax(0, 1fr); }
+  .child-add-link { min-height: 14rem; }
+  .house-section__workspace { border-radius: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .child-add-link svg,
+  .billing-plan-pointer svg { animation: none; }
 }

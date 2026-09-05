@@ -38,48 +38,36 @@ function formatAge(age: number) {
   return `${age} лет`;
 }
 
-function getInitial(name: string) {
-  return name.trim().charAt(0).toUpperCase() || "MS";
+function AddChildLink() {
+  return (
+    <Link href="/children/new" className="child-add-link" aria-label="Добавить профиль ребёнка">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M50 15V85M15 50H85" />
+      </svg>
+    </Link>
+  );
 }
 
 export function ChildrenList({ childrenItems }: ChildrenListProps) {
   if (childrenItems.length === 0) {
     return (
-      <div className="house-panel family-empty">
-        <div className="family-empty__frame" aria-hidden="true">
-          <span>+</span>
-        </div>
-        <h2>Добавьте профиль ребёнка</h2>
-        <Link
-          href="/children/new"
-          className="house-primary-button"
-        >
-          Добавить ребёнка
-        </Link>
+      <div className="child-profiles-empty">
+        <AddChildLink />
       </div>
     );
   }
 
   return (
-    <div className="family-gallery-grid">
-      {childrenItems.map((child, index) => (
-        <article key={child.id} className={`house-panel family-profile family-profile--${index % 3}`}>
-          <div className="family-profile__portrait">
-            <div className="family-profile__avatar" aria-hidden="true">
-              <span>{getInitial(child.name)}</span>
-            </div>
-            <span>{formatGenderLabel(child.gender)}</span>
-          </div>
-
-          <div className="family-profile__details">
-            <div className="family-profile__title">
+    <div className="child-profiles-grid">
+      {childrenItems.map((child) => (
+        <article key={child.id} className="child-profile">
+          <h2>{formatGenderLabel(child.gender)} {child.name}</h2>
+          <div className="child-parchment">
+            <dl className="child-parchment__facts">
               <div>
-                <h2>{child.name}</h2>
+                <dt>Возраст</dt>
+                <dd>{formatAge(child.age)}</dd>
               </div>
-              <span>{formatAge(child.age)}</span>
-            </div>
-
-            <dl className="family-profile__facts">
               <div>
                 <dt>Интересы</dt>
                 <dd>{child.interests || "Пока не указаны"}</dd>
@@ -119,10 +107,7 @@ export function ChildrenList({ childrenItems }: ChildrenListProps) {
       ))}
 
       {childrenItems.length < MAX_CHILD_PROFILES ? (
-        <Link href="/children/new" className="family-add-frame">
-          <span aria-hidden="true">+</span>
-          <strong>Добавить ребёнка</strong>
-        </Link>
+        <AddChildLink />
       ) : null}
     </div>
   );
