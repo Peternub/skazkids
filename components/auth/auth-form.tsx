@@ -126,7 +126,7 @@ export function AuthForm({
         ) : null}
 
         {state.success ? (
-          <p className="rounded-lg border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+          <p className="rounded-lg border border-[var(--border-strong)] bg-transparent px-4 py-3 text-sm text-[var(--accent-gold)]">
             {state.success}
           </p>
         ) : null}

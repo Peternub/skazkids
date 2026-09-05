@@ -4164,6 +4164,10 @@ header img {
   background: transparent;
 }
 
+.house-section .billing-status--active {
+  border-color: var(--border-strong);
+}
+
 .house-section .billing-usage__track > span,
 .house-section .tree-library-empty__seed::before,
 .house-section .tree-library-empty__seed::after {

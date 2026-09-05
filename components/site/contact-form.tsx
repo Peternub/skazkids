@@ -85,7 +85,7 @@ export function ContactForm() {
         <p
           role="status"
           aria-live="polite"
-          className="contact-success mt-6 flex min-h-[2.75rem] w-full items-center justify-center rounded-lg bg-emerald-50 px-4 py-3 text-center text-sm text-emerald-700"
+          className="contact-success mt-6 flex min-h-[2.75rem] w-full items-center justify-center rounded-lg bg-transparent px-4 py-3 text-center text-sm text-[var(--accent-gold)]"
         >
           {state.success}
         </p>

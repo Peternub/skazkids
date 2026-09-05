@@ -39,7 +39,7 @@ export function PasswordResetForm({ action, mode }: PasswordResetFormProps) {
       )}
 
       {state.error ? <p className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p> : null}
-      {state.success ? <p className="rounded-lg bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{state.success}</p> : null}
+      {state.success ? <p className="rounded-lg bg-transparent px-4 py-3 text-sm text-[var(--accent-gold)]">{state.success}</p> : null}
 
       <button
         type="submit"

@@ -16,7 +16,7 @@ const statusClasses: Record<string, string> = {
   pending:
     "border border-[var(--border-strong)] bg-[var(--accent-gold-soft)] text-[var(--text-main)]",
   generating: "border border-amber-400/30 bg-amber-500/10 text-amber-200",
-  completed: "border border-emerald-400/30 bg-emerald-500/10 text-emerald-200",
+  completed: "border border-[var(--border-strong)] bg-transparent text-[var(--accent-gold)]",
   failed: "border border-red-400/30 bg-red-500/10 text-red-200"
 };
 
@@ -86,7 +86,7 @@ export default async function StoryDetailsPage({ params }: StoryPageProps) {
         ) : null}
 
         {story.status === "completed" ? (
-          <div className="mt-6 rounded-lg border border-emerald-400/20 bg-emerald-500/10 px-5 py-4 text-sm text-emerald-200">
+          <div className="mt-6 rounded-lg border border-[var(--border-strong)] bg-transparent px-5 py-4 text-sm text-[var(--accent-gold)]">
             Серия готова и сохранена в вашей библиотеке.
           </div>
         ) : null}
