@@ -4129,9 +4129,22 @@ header img {
   filter: grayscale(1) contrast(1.08);
 }
 
-/* Внутренние разделы на общем чёрном фоне. */
+/* Общий фон трёх внутренних разделов. */
 .house-section {
+  position: relative;
+  isolation: isolate;
   background: #080808;
+}
+
+.house-section::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(5, 5, 5, 0.38), rgba(5, 5, 5, 0.56)),
+    url("/account/room-desktop.jpg") center / cover no-repeat;
 }
 
 .house-section__workspace,
@@ -4146,6 +4159,10 @@ header img {
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
+}
+
+.house-section__workspace {
+  z-index: 1;
 }
 
 .house-section__header {
@@ -4221,14 +4238,25 @@ header img {
 }
 
 .child-parchment {
-  padding: clamp(2rem, 5vw, 3.5rem);
+  position: relative;
+  min-height: clamp(38rem, 58vw, 48rem);
+  padding: clamp(8rem, 13vw, 10.5rem) clamp(4rem, 8vw, 6.5rem) clamp(7.5rem, 12vw, 9.5rem);
   color: #382916;
-  background:
-    radial-gradient(ellipse at 8% 20%, #ab743d55, transparent 38%),
-    radial-gradient(ellipse at 85% 85%, #a9763850, transparent 45%),
-    repeating-linear-gradient(3deg, #81552808 0 1px, transparent 1px 4px),
-    linear-gradient(110deg, #d6b77b, #f0dfb1 35%, #e4ca91 75%, #cba369);
-  clip-path: polygon(1% 2%, 7% 0, 13% 2%, 21% 1%, 29% 3%, 37% 0, 46% 2%, 55% 1%, 64% 3%, 73% 0, 83% 2%, 92% 1%, 99% 3%, 98% 14%, 100% 24%, 98% 36%, 100% 46%, 98% 59%, 100% 71%, 98% 84%, 99% 98%, 90% 97%, 81% 100%, 72% 98%, 63% 100%, 53% 97%, 44% 99%, 35% 98%, 24% 100%, 15% 97%, 2% 99%, 3% 87%, 0 77%, 2% 65%, 0 53%, 2% 42%, 0 29%, 2% 17%);
+}
+
+.child-parchment::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("/account/child-scroll.png") center / 200% auto no-repeat;
+  mix-blend-mode: screen;
+}
+
+.child-parchment > * {
+  position: relative;
+  z-index: 1;
 }
 
 .child-parchment__facts {
@@ -4305,6 +4333,17 @@ header img {
   .child-profiles-grid { grid-template-columns: minmax(0, 1fr); }
   .child-add-link { min-height: 14rem; }
   .house-section__workspace { border-radius: 0; }
+  .house-section::before {
+    background:
+      linear-gradient(rgba(5, 5, 5, 0.34), rgba(5, 5, 5, 0.55)),
+      url("/account/room-mobile.jpg") center top / cover no-repeat;
+  }
+  .child-parchment {
+    min-height: 37rem;
+    padding: 7rem 3.25rem 6.5rem;
+  }
+  .child-parchment__facts { gap: 0.85rem; }
+  .child-parchment__facts dd { font-size: 1rem; line-height: 1.45; }
 }
 
 @media (prefers-reduced-motion: reduce) {
