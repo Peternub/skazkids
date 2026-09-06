@@ -61,8 +61,10 @@ export function ChildrenList({ childrenItems }: ChildrenListProps) {
     <div className="child-profiles-grid">
       {childrenItems.map((child) => (
         <article key={child.id} className="child-profile">
-          <h2>{formatGenderLabel(child.gender)} {child.name}</h2>
           <div className="child-parchment">
+            <h2 className="child-parchment__title">
+              {formatGenderLabel(child.gender)} {child.name}
+            </h2>
             <dl className="child-parchment__facts">
               <div>
                 <dt>Возраст</dt>

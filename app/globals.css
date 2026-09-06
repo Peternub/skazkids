@@ -4230,10 +4230,12 @@ header img {
   min-width: 0;
 }
 
-.child-profile > h2 {
-  margin-bottom: 1.5rem;
+.child-parchment__title {
+  margin-bottom: 1.25rem;
+  color: #382916;
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 750;
+  line-height: 1.1;
   overflow-wrap: anywhere;
 }
 
@@ -4250,8 +4252,7 @@ header img {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: url("/account/child-scroll.png") center / 200% auto no-repeat;
-  mix-blend-mode: screen;
+  background: url("/account/child-scroll.png") center / 100% 100% no-repeat;
 }
 
 .child-parchment > * {
