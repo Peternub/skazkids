@@ -41,7 +41,14 @@ function formatAge(age: number) {
 function AddChildLink() {
   return (
     <Link href="/children/new" className="child-add-link" aria-label="Добавить профиль ребёнка">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
+      <span className="child-add-link__hint" aria-hidden="true">
+        <span>Добавить профиль</span>
+        <svg viewBox="0 0 100 70">
+          <path d="M8 12C38 7 58 22 46 39C36 54 57 63 84 52" />
+          <path d="M70 44L84 52L73 63" />
+        </svg>
+      </span>
+      <svg className="child-add-link__plus" viewBox="0 0 100 100" aria-hidden="true">
         <path d="M50 15V85M15 50H85" />
       </svg>
     </Link>
