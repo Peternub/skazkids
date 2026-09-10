@@ -40,11 +40,11 @@ export default async function SeriesPage({ searchParams }: SeriesPageProps) {
         <>
           <Link
             href={showCompleted ? "/series" : "/series?view=completed"}
-            className="house-secondary-button"
+            className="house-secondary-button series-collection-button"
           >
             {showCompleted ? "Текущий сериал" : `Коллекция · ${completedSeries.length}`}
           </Link>
-          <Link href="/series/new" className="house-primary-button">Создать сериал</Link>
+          <Link href="/series/new" className="house-primary-button series-header-create-button">Создать сериал</Link>
         </>
       }
     >

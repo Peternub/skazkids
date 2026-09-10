@@ -4354,6 +4354,45 @@ header img {
 }
 
 @media (max-width: 767px) {
+  .house-section--cinema .house-section__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 1rem 0.65rem;
+  }
+
+  .house-section--cinema .house-section__heading {
+    display: contents;
+  }
+
+  .house-section--cinema .house-section__home-link {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    margin-bottom: 0;
+  }
+
+  .house-section--cinema .house-section__heading h1 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .house-section--cinema .house-section__actions {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto;
+  }
+
+  .house-section--cinema .series-collection-button {
+    width: auto;
+    padding: 0.65rem 0.8rem;
+    white-space: nowrap;
+  }
+
+  .house-section--cinema .series-header-create-button {
+    display: none;
+  }
+
   .child-profiles-grid { grid-template-columns: minmax(0, 1fr); }
   .child-add-link { min-height: 14rem; }
   .house-section {
