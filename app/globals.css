@@ -4133,12 +4133,13 @@ header img {
 .house-section {
   position: relative;
   isolation: isolate;
+  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 5vw, 5rem);
   background: #080808;
 }
 
 .house-section::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -4163,10 +4164,24 @@ header img {
 
 .house-section__workspace {
   z-index: 1;
+  width: min(100%, 80rem);
+  border-radius: clamp(1.5rem, 3vw, 2.5rem);
+  background: #000;
 }
 
 .house-section__header {
+  flex-wrap: wrap;
   border-bottom: 0;
+}
+
+.house-section__actions {
+  min-width: 0;
+  max-width: 100%;
+  flex-shrink: 1;
+}
+
+.house-section__actions > * {
+  max-width: 100%;
 }
 
 .house-section .house-primary-button {
@@ -4228,6 +4243,19 @@ header img {
 
 .child-profile {
   min-width: 0;
+}
+
+.child-profile,
+.child-profile:hover {
+  box-shadow: none;
+}
+
+.child-profile:hover {
+  transform: none;
+}
+
+.child-profile::before {
+  content: none;
 }
 
 .child-parchment__title {
@@ -4333,7 +4361,7 @@ header img {
 @media (max-width: 767px) {
   .child-profiles-grid { grid-template-columns: minmax(0, 1fr); }
   .child-add-link { min-height: 14rem; }
-  .house-section__workspace { border-radius: 0; }
+  .house-section__workspace { border-radius: 1.5rem; }
   .house-section::before {
     background:
       linear-gradient(rgba(5, 5, 5, 0.34), rgba(5, 5, 5, 0.55)),
