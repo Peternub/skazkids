@@ -83,6 +83,44 @@ create trigger stories_require_series
   before insert on public.stories
   for each row execute function public.enforce_story_series_membership();
 
+create or replace function public.expire_stale_story_generations(
+  target_user_id uuid
+)
+returns integer
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $$
+declare
+  expired_count integer;
+begin
+  with expired_stories as (
+    update public.stories
+    set
+      status = 'failed',
+      error_message = 'Создание серии прервалось. Нажмите «Повторить».',
+      generation_started_at = null
+    where user_id = target_user_id
+      and status in ('pending', 'generating')
+      and coalesce(generation_started_at, created_at) < now() - interval '10 minutes'
+    returning series_id
+  ), updated_series as (
+    update public.story_series
+    set
+      status = 'failed',
+      last_error = 'Создание серии прервалось. Нажмите «Повторить».',
+      generation_started_at = null
+    where user_id = target_user_id
+      and id in (select series_id from expired_stories)
+    returning id
+  )
+  select count(*) into expired_count
+  from expired_stories;
+
+  return expired_count;
+end;
+$$;
+
 create or replace function public.create_series_with_first_episode(
   target_user_id uuid,
   target_child_id uuid,
@@ -133,6 +171,8 @@ begin
   if episode_count <> 3 and (episode_count < 8 or episode_count > 16) then
     raise exception 'INVALID_EPISODE_COUNT';
   end if;
+
+  perform public.expire_stale_story_generations(target_user_id);
 
   if exists (
     select 1
@@ -270,6 +310,8 @@ begin
   if series_record.status = 'completed' then
     raise exception 'SERIES_COMPLETED';
   end if;
+
+  perform public.expire_stale_story_generations(target_user_id);
 
   if exists (
     select 1
@@ -486,6 +528,7 @@ $$;
 revoke all on function public.set_updated_at() from public;
 revoke all on function public.enforce_children_limit() from public;
 revoke all on function public.enforce_story_series_membership() from public;
+revoke all on function public.expire_stale_story_generations(uuid) from public;
 revoke all on function public.create_series_with_first_episode(
   uuid, uuid, text, text, integer, uuid, uuid, jsonb, boolean
 ) from public;
