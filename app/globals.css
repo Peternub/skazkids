@@ -4133,19 +4133,14 @@ header img {
 .house-section {
   position: relative;
   isolation: isolate;
-  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 5vw, 5rem);
-  background: #080808;
+  padding: clamp(1rem, 2.6vw, 2rem) clamp(0.75rem, 3vw, 2.5rem) 4rem;
+  background:
+    linear-gradient(rgba(5, 5, 5, 0.38), rgba(5, 5, 5, 0.56)),
+    url("/account/room-desktop.jpg") center top / cover no-repeat;
 }
 
 .house-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(rgba(5, 5, 5, 0.38), rgba(5, 5, 5, 0.56)),
-    url("/account/room-desktop.jpg") center / cover no-repeat;
+  content: none;
 }
 
 .house-section__workspace,
@@ -4164,9 +4159,9 @@ header img {
 
 .house-section__workspace {
   z-index: 1;
-  width: min(100%, 80rem);
-  border-radius: clamp(1.5rem, 3vw, 2.5rem);
-  background: #000;
+  width: min(100%, 88rem);
+  border-radius: 0;
+  background: transparent;
 }
 
 .house-section__header {
@@ -4361,8 +4356,7 @@ header img {
 @media (max-width: 767px) {
   .child-profiles-grid { grid-template-columns: minmax(0, 1fr); }
   .child-add-link { min-height: 14rem; }
-  .house-section__workspace { border-radius: 1.5rem; }
-  .house-section::before {
+  .house-section {
     background:
       linear-gradient(rgba(5, 5, 5, 0.34), rgba(5, 5, 5, 0.55)),
       url("/account/room-mobile.jpg") center top / cover no-repeat;
