@@ -4136,7 +4136,7 @@ header img {
   padding: clamp(1rem, 2.6vw, 2rem) clamp(0.75rem, 3vw, 2.5rem) 4rem;
   background:
     linear-gradient(rgba(5, 5, 5, 0.38), rgba(5, 5, 5, 0.56)),
-    url("/account/room-desktop.jpg") center top / cover no-repeat;
+    url("/account/sections-background-desktop.png") center top / cover no-repeat;
 }
 
 .house-section::before {
@@ -4442,7 +4442,7 @@ header img {
   .house-section {
     background:
       linear-gradient(rgba(5, 5, 5, 0.34), rgba(5, 5, 5, 0.55)),
-      url("/account/room-mobile.jpg") center top / cover no-repeat;
+      url("/account/sections-background-mobile.png") center top / cover no-repeat;
   }
   .child-parchment {
     min-height: 32rem;
