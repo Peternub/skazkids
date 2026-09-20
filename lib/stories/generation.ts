@@ -32,8 +32,8 @@ function buildStoryRequest(input: {
 }): StoryInput {
   const addition = input.generationInput.situation;
   const episodeContext = input.episodeNumber === 1
-    ? "Это первая серия: представь мир и постоянных героев через действие."
-    : `Это серия ${input.episodeNumber}: продолжи сюжет только по памяти сериала.`;
+    ? "Это первая серия: покажи мир через действие; введи только нужных для текущей сцены героев; остальных оставь для следующих серий."
+    : `Это серия ${input.episodeNumber}: продолжи сюжет по памяти сериала с учётом сегодняшних пожеланий; нового героя представь только при его первом появлении.`;
 
   return {
     childId: input.childId,

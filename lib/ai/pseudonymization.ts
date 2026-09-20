@@ -1,4 +1,5 @@
 import type { SeriesMemory } from "@/lib/ai/story-memory";
+import { findNamedRelations, isCharacterRole, isPossibleCharacterName } from "@/lib/ai/character-input";
 
 export type PrivateAliases = Record<string, string>;
 export type PersonGender = "male" | "female";
@@ -86,8 +87,6 @@ const SAFE_CAPITALIZED_WORDS = new Set([
   "Формат"
 ]);
 
-const RELATION_NAME_PATTERN =
-  /(мама|папа|бабушка|дедушка|брат|сестра|друг|подруга|няня|кот|кошка|пёс|собака|питомец)\s+([а-яёa-z][а-яёa-z-]{1,30})/giu;
 const CAPITALIZED_WORD_PATTERN = /(?<![\p{L}\p{N}_])[А-ЯЁ][а-яё]+(?:-[А-ЯЁ][а-яё]+)?(?![\p{L}\p{N}_])/gu;
 const EMAIL_PATTERN = /[\w.+-]+@[\w.-]+\.[A-Za-zА-Яа-яЁё]{2,}/u;
 const UUID_PATTERN = /\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/iu;
@@ -188,9 +187,18 @@ function containsWholeValue(text: string, value: string) {
 }
 
 function relationGender(relation: string): PersonGender | null {
-  if (["мама", "бабушка", "сестра", "подруга", "няня", "кошка"].includes(relation)) return "female";
-  if (["папа", "дедушка", "брат", "друг", "кот", "пёс"].includes(relation)) return "male";
+  if (["мама", "бабушка", "сестра", "подруга", "няня", "кошка", "тётя", "тетя"].includes(relation)) return "female";
+  if (["папа", "дедушка", "брат", "друг", "кот", "пёс", "пес", "дядя"].includes(relation)) return "male";
   return null;
+}
+
+function isNonName(value: string) {
+  return !isPossibleCharacterName(value) ||
+    [...SAFE_CAPITALIZED_WORDS].some((word) => word.toLocaleLowerCase("ru-RU") === value.toLocaleLowerCase("ru-RU"));
+}
+
+function capitalizeName(value: string) {
+  return value.split("-").map((part) => part.charAt(0).toLocaleUpperCase("ru-RU") + part.slice(1).toLocaleLowerCase("ru-RU")).join("-");
 }
 
 export function parsePrivateAliases(value: unknown): PrivateAliases {
@@ -207,15 +215,15 @@ export function parsePrivateAliases(value: unknown): PrivateAliases {
     .slice(0, 300) as Array<[string, string]>;
   const blockedPersonPrefixes = new Set(
     entries.flatMap(([placeholder, original]) => {
-      const match = placeholder.match(/^(\{\{PERSON_[0-9]+)_NOM\}\}$/u);
-      return match?.[1] && SAFE_CAPITALIZED_WORDS.has(original) ? [match[1]] : [];
+      const match = placeholder.match(/^(\{\{PERSON_[0-9]+)(?:_NOM)?\}\}$/u);
+      return match?.[1] && isNonName(original) ? [match[1]] : [];
     })
   );
 
   return Object.fromEntries(
     entries.filter(([placeholder]) =>
-      [...blockedPersonPrefixes].every((prefix) => !placeholder.startsWith(`${prefix}_`))
-    )
+      [...blockedPersonPrefixes].every((prefix) => !placeholder.startsWith(`${prefix}_`) && placeholder !== `${prefix}}}`)
+    ).map(([placeholder, original]) => [placeholder, capitalizeName(original)])
   );
 }
 
@@ -233,14 +241,12 @@ export class StoryPseudonymizer {
   scan(text: string | null | undefined) {
     if (!text) return;
 
-    for (const match of text.matchAll(RELATION_NAME_PATTERN)) {
-      const relation = match[1];
-      const name = match[2];
-      if (name) this.registerPerson(name, relation ? relationGender(relation) : null);
+    for (const { role, name } of findNamedRelations(text)) {
+      this.registerPerson(name, relationGender(role));
     }
 
     for (const match of text.matchAll(CAPITALIZED_WORD_PATTERN)) {
-      if (!SAFE_CAPITALIZED_WORDS.has(match[0])) this.registerPerson(match[0], null);
+      if (!isNonName(match[0]) && !isCharacterRole(match[0])) this.registerPerson(match[0], null);
     }
   }
 
@@ -305,7 +311,7 @@ export class StoryPseudonymizer {
   }
 
   private registerPerson(value: string, explicitGender: PersonGender | null) {
-    const normalized = value.trim();
+    const normalized = capitalizeName(value.trim());
     if (!normalized || this.isKnownForm(normalized)) return;
 
     const personNumbers = Object.keys(this.aliases)

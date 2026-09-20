@@ -11,15 +11,10 @@ import {
   type SeriesMemory
 } from "@/lib/ai/story-memory";
 import type { StoryInput } from "@/lib/validators/stories";
+import { buildSeriesPrompt, STORY_INSTRUCTIONS, type ChildProfile } from "@/lib/ai/story-prompt";
+import { normalizeCharacterInput } from "@/lib/ai/character-input";
 
-type ChildProfile = {
-  name: string;
-  age: number;
-  gender: "boy" | "girl";
-  interests?: string | null;
-  fears?: string | null;
-  additional_context?: string | null;
-};
+export { buildSeriesPrompt } from "@/lib/ai/story-prompt";
 
 export type GenerateStoryParams = {
   child: ChildProfile;
@@ -76,55 +71,8 @@ const generatedStorySchema = z.object({
   memory: z.unknown()
 });
 
-function getGenderLabel(gender: ChildProfile["gender"]) {
-  return gender === "girl" ? "female" : "male";
-}
-
 export function createGatewayRequestId(storyId: string) {
   return createHash("sha256").update(`skazkids-story:${storyId}`).digest("hex");
-}
-
-export function buildSeriesPrompt(params: {
-  child: ChildProfile;
-  request: StoryInput;
-  episodeNumber: number;
-  plannedEpisodes: number;
-  seriesMemory: SeriesMemory;
-}) {
-  const { child, request, episodeNumber, plannedEpisodes, seriesMemory } = params;
-
-  return [
-    "Напиши вечернюю серию на русском языке с учётом указанного возраста ребёнка.",
-    `Это серия ${episodeNumber} из ${plannedEpisodes}. Длительность чтения — около 5 минут, 700–950 слов.`,
-    "Персональные имена заменены неизменяемыми плейсхолдерами с падежами.",
-    "NOM — именительный, GEN — родительный, DAT — дательный, ACC — винительный, INS — творительный, PREP — предложный.",
-    "Пример: {{CHILD_NOM}} открыл дверь; подарок для {{CHILD_GEN}}; бабушка улыбнулась {{CHILD_DAT}}.",
-    "Всегда возвращай плейсхолдер целиком и выбирай правильный падеж. Не придумывай реальные имена вместо плейсхолдеров.",
-    "Стиль: живой, тёплый, спокойный; конкретные действия; короткие диалоги; мягкий юмор.",
-    "Не используй старинный сказочный язык, прямую мораль, психологические термины и тревожный клиффхэнгер.",
-    "Начни сразу со сцены. Сделай 7–12 абзацев. Финал должен успокаивать и оставлять лёгкий повод вернуться завтра.",
-    "Не пересказывай прошлые серии. Используй только память ниже.",
-    "",
-    "ОБЕЗЛИЧЕННЫЙ ПРОФИЛЬ:",
-    "Главный герой: {{CHILD_NOM}}",
-    `Возраст: ${child.age}`,
-    `Пол: ${getGenderLabel(child.gender)}`,
-    `Интересы: ${child.interests || "не указаны"}`,
-    `Что важно учитывать: ${child.fears || "не указано"}`,
-    `Близкие и питомцы: ${child.additional_context || "не указаны"}`,
-    "",
-    "СЕГОДНЯШНЯЯ СЕРИЯ:",
-    `Событие: ${request.situation}`,
-    `Место: ${request.setting}`,
-    `Персонажи: ${request.additionalCharacters || "из памяти сериала"}`,
-    `Изменение к финалу: ${request.goal}`,
-    `Паспорт и пожелания: ${request.extraWishes || "нет"}`,
-    "",
-    "ПАМЯТЬ СЕРИАЛА:",
-    JSON.stringify(seriesMemory),
-    "",
-    "Верни заголовок, полный текст, краткое содержание и обновлённую память. В памяти оставь только важные постоянные факты."
-  ].join("\n");
 }
 
 function preparePseudonymizedInput(params: GenerateStoryParams) {
@@ -141,27 +89,28 @@ function preparePseudonymizedInput(params: GenerateStoryParams) {
     params.request.goal,
     params.request.extraWishes
   ];
-  values.forEach((value) => pseudonymizer.scan(value));
+  values.forEach((value) => pseudonymizer.scan(normalizeCharacterInput(value)));
   pseudonymizer.scanMemory(params.seriesMemory);
+  const mask = (value: string | null | undefined) => pseudonymizer.mask(normalizeCharacterInput(value));
 
   return {
     pseudonymizer,
     child: {
       ...params.child,
       name: "{{CHILD_NOM}}",
-      interests: pseudonymizer.mask(params.child.interests),
-      fears: pseudonymizer.mask(params.child.fears),
-      additional_context: pseudonymizer.mask(params.child.additional_context)
+      interests: mask(params.child.interests),
+      fears: mask(params.child.fears),
+      additional_context: mask(params.child.additional_context)
     },
     request: {
       ...params.request,
       childId: "removed",
       durationMinutes: 5 as const,
-      situation: pseudonymizer.mask(params.request.situation),
-      setting: pseudonymizer.mask(params.request.setting),
-      additionalCharacters: pseudonymizer.mask(params.request.additionalCharacters),
-      goal: pseudonymizer.mask(params.request.goal),
-      extraWishes: pseudonymizer.mask(params.request.extraWishes)
+      situation: mask(params.request.situation),
+      setting: mask(params.request.setting),
+      additionalCharacters: mask(params.request.additionalCharacters),
+      goal: mask(params.request.goal),
+      extraWishes: mask(params.request.extraWishes)
     },
     seriesMemory: pseudonymizer.maskMemory(params.seriesMemory)
   };
@@ -182,7 +131,7 @@ export async function generateStory(params: GenerateStoryParams): Promise<Genera
   const generated = await getAiProvider().generateEpisode({
     requestId: params.requestId,
     model,
-    instructions: "Создавай безопасные связанные серии для семейного чтения перед сном. Строго соблюдай плейсхолдеры и JSON-схему.",
+    instructions: STORY_INSTRUCTIONS,
     input: prompt,
     schema: responseSchema
   });
